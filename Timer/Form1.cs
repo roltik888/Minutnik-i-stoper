@@ -1,1 +1,84 @@
+namespace Timer
+{
+    public partial class Form1 : Form
+    {
+        int stoperM = 0, stoperS = 0;
+        int minutnikM = 0, minutnikS = 0;
+
+        public Form1()
+        {
+            InitializeComponent();
+            timer1.Interval = 1000;
+            timer2.Interval = 1000;
+            timer1.Tick += timer1_Tick;
+            timer2.Tick += timer2_Tick;
+
+            Startbtn.Click += Startbtn_Click;
+            Stopbtn.Click += Stopbtn_Click;
+            Startbtn2.Click += Startbtn2_Click;
+            Stopbtn2.Click += Stopbtn2_Click;
+            Resetbtn.Click += Resetbtn_Click;
+        }
+
+        private void Startbtn2_Click(object sender, EventArgs e) => timer1.Start();
+
+        private void Stopbtn2_Click(object sender, EventArgs e) => timer1.Stop();
+
+        private void Resetbtn_Click(object sender, EventArgs e)
+        {
+            timer1.Stop();
+            stoperM = 0;
+            stoperS = 0;
+            Czas2.Text = "00:00";
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            stoperS++;
+            if (stoperS >= 60)
+            {
+                stoperS = 0;
+                stoperM++;
+            }
+            Czas2.Text = stoperM.ToString("00") + ":" + stoperS.ToString("00");
+        }
+
+        private void Startbtn_Click(object sender, EventArgs e)
+        {
+            minutnikM = int.Parse(Minpis.Text);
+            minutnikS = int.Parse(Secpis.Text);
+
+            Czas.Text = minutnikM.ToString("00") + ":" + minutnikS.ToString("00");
+            timer2.Start();
+        }
+
+        private void Stopbtn_Click(object sender, EventArgs e) => timer2.Stop();
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            if (minutnikM == 0 && minutnikS == 0)
+            {
+                timer2.Stop();
+                MessageBox.Show("Czas minął!");
+                return;
+            }
+
+            if (minutnikS == 0)
+            {
+                minutnikM--;
+                minutnikS = 59;
+            }
+            else
+            {
+                minutnikS--;
+            }
+
+            Czas.Text = minutnikM.ToString("00") + ":" + minutnikS.ToString("00");
+        }
+
+        private void Form1_Load(object sender, EventArgs e) { }
+        private void button1_Click(object sender, EventArgs e) { }
+        private void label1_Click(object sender, EventArgs e) { }
+    }
+}
 
